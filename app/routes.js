@@ -1,9 +1,43 @@
+const fetch =require('node-fetch');
+
+const GooglePlaces = require('node-googleplaces');
+ 
+const places = new GooglePlaces("AIzaSyAgGLqV5QvsPr2KcaFwngu1Yf7AIhqjdxI");
+const query = {
+  location: '49.250964,-123.102192',
+  radius: 1000
+};
+
+var parameters = {
+    //photoreference: "CnRnAAAAlga56tIplMiVPn9G-jTnsAi-ksp1grWXkb9n4K4AJe2jXnLEL-LmvXEc7fk-iM2H4SwMLdTnOgEjJxnqaiirh7Otci2vjt_81Ei4n0utbloIojJFsGfr2Hu7q969IzeJNqUvkgPf1SdTCP6ha8psMhIQN5CXx0ef7P2pkBnNlrdosBoUPyYsl-0caJPFu2DLwjkogoYtpYY",
+    sensor: false,
+    photo_reference: "CnRvAAAAwMpdHeWlXl-lH0vp7lez4znKPIWSWvgvZFISdKx45AwJVP1Qp37YOrH7sqHMJ8C-vBDC546decipPHchJhHZL94RcTUfPa1jWzo-rSHaTlbNtjh-N68RkcToUCuY9v2HNpo5mziqkir37WU8FJEqVBIQ4k938TI3e7bf8xq-uwDZcxoUbO_ZJzPxremiQurAYzCTwRhE_V0",
+  };
+//let query = "pizza"
+ 
+// Promise
+places.nearbySearch(query).then((res) => {
+  //console.log(res.body);
+  console.log(res.body.results[0].photos)
+});
+
+//places.photo(parameters, (err, res) => {
+    //console.log(res.body.path);
+    //console.log(err)
+//})
+
+
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
+        fetch('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Canada&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyAgGLqV5QvsPr2KcaFwngu1Yf7AIhqjdxI').then(function(response) {
+            return response.json();
+        }).then(function(myJson) {
+            console.log(myJson);
+        });
         res.render('index.ejs');
     });
 
@@ -19,6 +53,20 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+    let time;
+    app.get('/ping', function(req, res) {
+        clearTimeout(time)
+        console.log('ping')
+        time = setTimeout(function (){
+            console.log('Alert')
+        },3000)
+        res.json({
+            success: true
+        })
+    });
+
+    
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
