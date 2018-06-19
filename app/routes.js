@@ -1,4 +1,4 @@
-const fetch =require('node-fetch');
+const fetch = require('node-fetch');
 
 const GooglePlaces = require('node-googleplaces');
  
@@ -18,7 +18,7 @@ var parameters = {
 // Promise
 places.nearbySearch(query).then((res) => {
   //console.log(res.body);
-  console.log(res.body.results[0].photos)
+  //console.log(res.body.results[0].photos)
 });
 
 //places.photo(parameters, (err, res) => {
@@ -36,7 +36,7 @@ module.exports = function(app, passport) {
         fetch('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Canada&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyAgGLqV5QvsPr2KcaFwngu1Yf7AIhqjdxI').then(function(response) {
             return response.json();
         }).then(function(myJson) {
-            console.log(myJson);
+            //console.log(myJson);
         });
         res.render('index.ejs');
     });
@@ -55,7 +55,7 @@ module.exports = function(app, passport) {
     });
 
     let time;
-    app.get('/ping', function(req, res) {
+    /*app.get('/ping', function(req, res) {
         clearTimeout(time)
         console.log('ping')
         time = setTimeout(function (){
@@ -64,7 +64,7 @@ module.exports = function(app, passport) {
         res.json({
             success: true
         })
-    });
+    });*/
 
     
 

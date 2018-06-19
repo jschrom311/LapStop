@@ -18,6 +18,13 @@ var configDB = require('./config/database.js');
 
 var path = require('path');
 
+/*const http = require('http').Server(app);
+const io = require('socket.io')(http);
+io.on('connection', function(socket) { 
+    console.log('connected')
+  })*/
+
+  console.log("help!")
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 
@@ -34,11 +41,29 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 app.use(express.static(path.join(__dirname, 'public')));
 
 // required for passport
-app.use(session({
+
+var sessionMiddleware = session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
     resave: true,
     saveUninitialized: true
-}));
+})
+var http = require('http').createServer(app); 
+var io = require('socket.io')(http)
+//var io = require("socket.io")(app)
+    .use(function(socket, next){
+        // Wrap the express middleware
+        sessionMiddleware(socket.request, {}, next);
+    })
+    .on("connection", function(socket){
+        var userId = socket.request.session.passport.user;
+        console.log("Your User ID is", userId);
+        socket.on('disconnect', function(){
+            console.log("User Disconnected", userId);
+        })
+    });
+    
+
+app.use(sessionMiddleware)
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -47,5 +72,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(port);
+
 console.log('The magic happens on port ' + port);
+
+http.listen(port);

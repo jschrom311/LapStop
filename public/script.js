@@ -10,4 +10,4 @@ function ping(){
   });
 }
 
-setInterval(function(){ ping() },2000)
+//setInterval(function(){ ping() },2000)
