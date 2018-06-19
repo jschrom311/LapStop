@@ -55,7 +55,7 @@ var io = require('socket.io')(http)
         sessionMiddleware(socket.request, {}, next);
     })
     .on("connection", function(socket){
-        var userId = socket.request.session.passport.user;
+        var userId// = socket.request.session.passport.user;
         console.log("Your User ID is", userId);
         socket.on('disconnect', function(){
             console.log("User Disconnected", userId);

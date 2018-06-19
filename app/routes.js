@@ -55,16 +55,12 @@ module.exports = function(app, passport) {
     });
 
     let time;
-    /*app.get('/ping', function(req, res) {
-        clearTimeout(time)
-        console.log('ping')
-        time = setTimeout(function (){
-            console.log('Alert')
-        },3000)
+    app.get('/ping', function(req, res) {
+        console.log("Your laptop has been compromised", req.user)
         res.json({
             success: true
         })
-    });*/
+    });
 
     
 
