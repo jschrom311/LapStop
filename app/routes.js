@@ -1,32 +1,5 @@
 const fetch = require('node-fetch');
 
-const GooglePlaces = require('node-googleplaces');
- 
-const places = new GooglePlaces("AIzaSyAgGLqV5QvsPr2KcaFwngu1Yf7AIhqjdxI");
-const query = {
-  location: '49.250964,-123.102192',
-  radius: 1000
-};
-
-var parameters = {
-    //photoreference: "CnRnAAAAlga56tIplMiVPn9G-jTnsAi-ksp1grWXkb9n4K4AJe2jXnLEL-LmvXEc7fk-iM2H4SwMLdTnOgEjJxnqaiirh7Otci2vjt_81Ei4n0utbloIojJFsGfr2Hu7q969IzeJNqUvkgPf1SdTCP6ha8psMhIQN5CXx0ef7P2pkBnNlrdosBoUPyYsl-0caJPFu2DLwjkogoYtpYY",
-    sensor: false,
-    photo_reference: "CnRvAAAAwMpdHeWlXl-lH0vp7lez4znKPIWSWvgvZFISdKx45AwJVP1Qp37YOrH7sqHMJ8C-vBDC546decipPHchJhHZL94RcTUfPa1jWzo-rSHaTlbNtjh-N68RkcToUCuY9v2HNpo5mziqkir37WU8FJEqVBIQ4k938TI3e7bf8xq-uwDZcxoUbO_ZJzPxremiQurAYzCTwRhE_V0",
-  };
-//let query = "pizza"
- 
-// Promise
-places.nearbySearch(query).then((res) => {
-  //console.log(res.body);
-  //console.log(res.body.results[0].photos)
-});
-
-//places.photo(parameters, (err, res) => {
-    //console.log(res.body.path);
-    //console.log(err)
-//})
-
-
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
@@ -43,6 +16,7 @@ module.exports = function(app, passport) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
+        //sendEmail()
         res.render('profile.ejs', {
             user : req.user
         });
@@ -61,6 +35,8 @@ module.exports = function(app, passport) {
             success: true
         })
     });
+
+
 
     
 
@@ -236,4 +212,26 @@ function isLoggedIn(req, res, next) {
         return next();
 
     res.redirect('/');
+}
+
+function sendEmail(){
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: EMAIL,
+               pass: PASSWORD
+           }
+       });
+       const mailOptions = {
+        from: 'jschrom311@gmail.com', // sender address
+        to: 'jschrom311@gmail.com', // list of receivers
+        subject: 'Subject of your email', // Subject line
+        html: '<p>Your html here</p>'// plain text body
+      };
+      transporter.sendMail(mailOptions, function (err, info) {
+        if(err)
+          console.log(err)
+        else
+          console.log(info);
+     });
 }

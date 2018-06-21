@@ -18,6 +18,22 @@ var configDB = require('./config/database.js');
 
 var path = require('path');
 
+var session = require('express-session');
+
+var sessionMiddleware = session({
+    secret: 'ilovescotchscotchyscotchscotch', // session secret
+    resave: true,
+    saveUninitialized: true
+})
+var http = require('http').createServer(app); 
+var io = require('socket.io')(http)
+io.use(function(socket, next){
+    // Wrap the express middleware
+    sessionMiddleware(socket.request, {}, next);
+})
+
+require('./socket.js')(io);
+
 /*const http = require('http').Server(app);
 const io = require('socket.io')(http);
 io.on('connection', function(socket) { 
@@ -42,7 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // required for passport
 
-var sessionMiddleware = session({
+/*var sessionMiddleware = session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
     resave: true,
     saveUninitialized: true
@@ -56,12 +72,11 @@ var io = require('socket.io')(http)
     })
     .on("connection", function(socket){
         if (socket.request.session.passport){
-            var userId = socket.request.session.passport.user;
+            var userId = socket.request.session.passport;
         }
         else {
             var userId = null;
         }
-        
         console.log("Your User ID is", userId);
         socket.on('disconnect', function(){
             console.log("User Disconnected", userId);
@@ -71,6 +86,8 @@ var io = require('socket.io')(http)
         })
     });
     
+
+app.use(sessionMiddleware)*/
 
 app.use(sessionMiddleware)
 app.use(passport.initialize());

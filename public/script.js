@@ -21,7 +21,7 @@ if (document.visibilityState == "visible") {
 function handleVisibilityChange() {
     console.log(document.visibilityState)
   if (document.visibilityState == "hidden") {
-      ping();
+      //ping();
       socket.emit('close')
     videoElement.pause();
   } else {
