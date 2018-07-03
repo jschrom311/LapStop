@@ -1,3 +1,7 @@
+const Location = require('../app/models/location');
+const bodyParser = require('body-parser'); 
+const jsonParser = bodyParser.json();
+
 const fetch = require('node-fetch');
 
 module.exports = function(app, passport) {
@@ -17,9 +21,13 @@ module.exports = function(app, passport) {
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
         //sendEmail()
-        res.render('profile.ejs', {
-            user : req.user
-        });
+        Location.find().then(loc => {
+            console.log("find all locations", loc)
+            res.render('profile.ejs', {
+                user : req.user,
+                locations: loc
+            });
+        }).catch(err => console.error(err))
     });
 
     // LOGOUT ==============================
@@ -36,6 +44,12 @@ module.exports = function(app, passport) {
         })
     });
 
+    app.post("/saveLocation", jsonParser, function(req, res){
+        console.log(req.body,req.params,req.query)
+        let location = new Location(req.body)
+        location.save()
+        res.redirect('back');
+    })
 
 
     

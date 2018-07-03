@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 <head>
-    <title>Node Authentication</title>
+    <title>LapStop</title>
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
@@ -11,8 +12,11 @@
 <body>
 <div class="container">
 
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+    <!--<div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profile Page</h1>-->
+        <div class="jumbotron text-center">
+                <h1><span class="fa fa-lock"></span> LapStop</h1>
+                <h2>World's leading app in laptop theft prevention</h2>    
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
@@ -21,7 +25,7 @@
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
+                <h3><span class="fa fa-user"></span> My Profile</h3>
 
                 <% if (user.local.email) { %>
                     <p>
@@ -38,86 +42,34 @@
             </div>
         </div>
 
-        <!-- FACEBOOK INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
 
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.facebook.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                        <strong>email</strong>: <%= user.facebook.email %><br>
-                        <strong>name</strong>: <%= user.facebook.name %><br>
-                    </p>
 
-                    <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
-                <% } %>
+    <p id="demo"></p>
+    
+    <% if (locations) { %>
+        <script>
+           var loc = <%- JSON.stringify(locations) %>        
+        </script>
+    <% } %>
 
-            </div>
-        </div>
-    </div>
-    <div class="row">
+    <button role="button" id="arm_button" class="btn btn-default">Secure your device</button>
+    <div id="map"></div>
+      <% for (var key in locations) { %>
+        <h3><%= locations[key].latitude %></h3>
+        <h3><%= locations[key].longitude %></h3>
+        <h3><%= locations[key].timestamp %></h3>
+    <% } %>
 
-        <!-- TWITTER INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-info"><span class="fa fa-twitter"></span> Twitter</h3>
-
-                <% if (user.twitter.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.twitter.id %><br>
-                        <strong>token</strong>: <%= user.twitter.token %><br>
-                        <strong>display name</strong>: <%= user.twitter.displayName %><br>
-                        <strong>username</strong>: <%= user.twitter.username %>
-                    </p>
-
-                    <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/twitter" class="btn btn-info">Connect Twitter</a>
-                <% } %>
-
-            </div>
-        </div>
-
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
-
-                <% if (user.google.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.google.id %><br>
-                        <strong>token</strong>: <%= user.google.token %><br>
-                        <strong>email</strong>: <%= user.google.email %><br>
-                        <strong>name</strong>: <%= user.google.name %>
-                    </p>
-
-                    <a href="/unlink/google" class="btn btn-danger">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/google" class="btn btn-danger">Connect Google</a>
-                <% } %>
-
-            </div>
-        </div>
-    </div>
-
-    <video width="400" controls id ="videoElement">
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
-      </video>
-
-    <div class="text-center">
-        <p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
-        <p>Visit the <a href="http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local">tutorial</a>.</p>
-    </div>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script>
         var socket = io();
       </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVCbPS40tAPyjYaLF3gXNtEz3mOARG5Wo"
+      ></script>
       <script src="./script.js"></script>
 </div>
 </body>
