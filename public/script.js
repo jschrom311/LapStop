@@ -25,6 +25,7 @@ $("#arm_button").click(function(){
 })
 
 // Handle page visibility change events
+var videoElement = document.getElementById("videoElement");
 function handleVisibilityChange() {
     console.log(document.visibilityState)
   if (document.visibilityState == "hidden" && armed) {
