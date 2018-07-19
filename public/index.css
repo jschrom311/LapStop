@@ -17,6 +17,36 @@ use strict
   background-color: #5DE2AD !important;
 }
 
+.gallery div {
+  width: 33%;
+  float: left;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  display: inline-grid;
+}
+
+.gallery p{
+  position: absolute;
+  bottom: 0px;
+  font-size: 20px;
+  margin-top: 10px;
+  justify-content: center;
+  display:  contents;
+}
+
+.gallery img{
+  width: 100%;
+}
+
+.gallery{
+  display: block;
+  margin: 20px 0px;
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+
 .description {
   font-size: 20px;
   padding: 20px 0px 20px 0px;
