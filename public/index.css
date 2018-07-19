@@ -1,16 +1,51 @@
-button.armed#arm_button {
-  background: rgba(212, 48, 48, 0.4)
+use strict
+
+* {
+  box-sizing: border-box;
 }
 
-button#arm_button {
-  background: rgba(65, 211, 65, 0.4)
+.bod {
+  
+  background-color: #EDF0DA !important;
 }
+
+.jumbotron {
+  background-color: #5DE2AD!important;
+}
+
+.well {
+  background-color: #5DE2AD !important;
+}
+
+.description {
+  font-size: 20px;
+  padding: 20px 0px 20px 0px;
+  background: brown;
+  color: white;
+}
+
+.fullmap {
+  width: 100% !important;
+}
+
+.btn-warning {
+  background-color: #996868 !important;
+  border-color: #050505 !important;
+}
+
+button.armed#arm_button {
+  background: rgba(153, 104, 104, 0.4)
+}
+
+/*button#arm_button {
+  background: rgba(116, 211, 125, 0.4)
+}*/
 
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
-  height: 300px;
-  width: 300px
+  height: 500px;
+  width: 100%
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -22,3 +57,62 @@ html, body {
 h2 {
   font-style: italic;
 }
+
+video {
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+#my_camera {
+  min-width: 100% !important;
+  min-height: 100% !important;
+}
+
+.camera {
+  position: relative;
+}
+
+#gif {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 0;
+  z-index: -1;
+  
+}
+
+body { 
+  padding-top:50px; 
+  word-wrap:break-word; 
+}
+
+#tabledata {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#tabledata td, #tabledata th {
+  border: 1px solid #EDF0DA;
+  padding: 8px;
+}
+
+#tabledata tr:nth-child(even){background-color: #5DE2AD;
+}
+
+/*#tabledata tr:hover {background-color:  #EDF0DA;
+}*/
+
+#tabledata th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #5DE2AD;
+  color: white;
+}
+
+#tableexp {
+  margin-top: 30px;
+}
+
+/*potential color palette colors: 02E9FF, 357278, 0F4FFF, 5485, 4F10FF, 564487

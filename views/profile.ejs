@@ -5,62 +5,90 @@
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body         { padding-top:80px; word-wrap:break-word; }
-    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
-<body>
-<div class="container">
+<body class="bod">
+<div class="container" id="videoElement">
 
-    <!--<div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>-->
+    <div class="page-header text-center">
         <div class="jumbotron text-center">
                 <h1><span class="fa fa-lock"></span> LapStop</h1>
-                <h2>World's leading app in laptop theft prevention</h2>    
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+                <h2>World's leading app in laptop theft prevention</h2> 
+                <button role="button" id="arm_button" class="btn btn-default">Secure your device</button>   
     </div>
+    <div id="cameraexp" class="text-center description"><span class="fa fa-video-camera"></span>
+          There's a live video feed to record any unwanted activity around your laptop
+    </div>
+    <div class="col-lg-16 camera">
 
-    <div class="row">
+        <div id="my_camera"></div>
+        <img id="gif" src="./loadingimg.gif"/>
+    </div>
+  
 
         <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> My Profile</h3>
+        <div class="col-md-6">
+                <div class="well">
+                    <h3><span class="fa fa-user"></span> My Profile</h3>
+    
+                    <% if (user.local.email) { %>
+                        <p>
+                            <strong>id</strong>: <%= user._id %><br>
+                            <strong>email</strong>: <%= user.local.email %><br>
+                        </p>
+                        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
+                    <% } else { %>
+                        <a href="/connect/local" class="btn btn-default">Connect Local</a>
+                    <% } %>
                     
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
-
+                </div>
             </div>
-        </div>
 
-        <video width="400" controls id ="videoElement">
-                   <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                </video>
+            <div class="col-md-6">
+                    <div class="well">
+                        <h3><span class="fas fa-map-pin"></span> My Location</h3>
+                        <p>When you secure your device your location will appear here:</p>
+                        <p id="demo"><strong>Latitude</strong>: <br><strong>Longitude</strong>: 
+                        </p>                      
+                    </div>
 
-    <p id="demo"></p>
+                </div>
+
+    <div id='results'></div>
     
     <% if (locations) { %>
         <script>
            var loc = <%- JSON.stringify(locations) %>        
         </script>
     <% } %>
+    
+<div class="col-md-6 fullmap">
+        <div id="mapexp" class="text-center description"><span class="fa fa-globe"></span> This map contains pins that are dropped for each user</div>
+    
+</div>
+<div id="map"></div>
+<div id="tableexp" class="text-center description"><span class="fa fa-table"></span>
+     The table below lists the time and location whenever your device is secured
+</div>
 
-    <button role="button" id="arm_button" class="btn btn-default">Secure your device</button>
-    <div id="map"></div>
-      <% for (var key in locations) { %>
-        <h3><%= locations[key].latitude %></h3>
-        <h3><%= locations[key].longitude %></h3>
-        <h3><%= locations[key].timestamp %></h3>
-    <% } %>
+    <table id="tabledata" border=1>
+            <tr>
+              <th>Date & Time</th>
+              <th>Longitude</th>
+              <th>Latitude</th>
+              <th>Remove Data</th>
+            </tr>
+            <% for (var key in locations) { %>
+            <tr>
+              <td><%= moment( locations[key].timestamp ).format('MMMM Do YYYY, h:mm:ss a') %></td>
+              <td><%= locations[key].lng.toFixed(2) %></td>
+              <td><%= locations[key].lat.toFixed(2) %></td>
+              <td><button class='btn btn-default delete' data-locationid=<%=locations[key]._id %>> Delete</button></td>
+            </tr>
+            <% } %>
+          </table>
+
 
     <script
   src="https://code.jquery.com/jquery-3.3.1.js"
@@ -72,7 +100,10 @@
       </script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVCbPS40tAPyjYaLF3gXNtEz3mOARG5Wo"
       ></script>
+      <script type="text/javascript" src="./webcam.min.js"></script>
+      <script type="text/javascript" src="./cam.js"></script>
       <script src="./script.js"></script>
+
 </div>
 </body>
 </html>

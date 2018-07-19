@@ -3,19 +3,10 @@ var armed = false
 function ping(){
     fetch('/ping')
     .then(function(response) {
-        //return response.json();
   })
     .then(function(myJson) {
-        //console.log(myJson);
   });
 }
-
-//var videoElement = document.getElementById("videoElement");
-//console.log(videoElement)
-// Autoplay the video if application is visible
-//if (document.visibilityState == "visible") {
-  //videoElement.play();
-//}
 
 $("#arm_button").click(function(){
   armed = !armed;
@@ -31,9 +22,8 @@ function handleVisibilityChange() {
   if (document.visibilityState == "hidden" && armed) {
     console.log("sendemail")
       socket.emit('close')
-    videoElement.pause();
+      //take_snapshot()
   } else {
-    videoElement.play();
   }
 }
 
@@ -47,6 +37,19 @@ function getLocation() {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
+
+$('button.delete').click(function(){
+  console.log($(this).data("locationid"))
+  $.ajax({
+    url: '/deletelocation',
+    type: 'DELETE',
+    data: {locationid: $(this).data("locationid")},
+    success: function(result) {
+        console.log(result)
+        $(`*[data-locationid="${result.deleted}"]`).parent().parent().remove()
+    }
+});
+})
 
 console.log(loc)  
 

@@ -13,10 +13,10 @@ module.exports = function(to){
        });
        console.log(to,"pineapple")
        const mailOptions = {
-        from: 'jschrom311@gmail.com', // sender address
+        from: 'lapstopsupp@gmail.com', // sender address
         to: String(to),
-        subject: 'ASDF', // Subject line
-        html: '<p>Your html here</p>'// plain text body
+        subject: 'An important notification from LapStop', // Subject line
+        html: '<p>Your laptop may be compromised.  You are receiving this message because your laptop was secured while using LapStop and the app went into a hidden state.</p>'// plain text body
       };
       transporter.sendMail(mailOptions, function (err, info) {
         if(err)

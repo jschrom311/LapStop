@@ -39,16 +39,9 @@ io.use(function(socket, next){
 })
 
 require('./socket.js')(io);
-
-/*const http = require('http').Server(app);
-const io = require('socket.io')(http);
-io.on('connection', function(socket) { 
-    console.log('connected')
-  })*/
-
   console.log("help!")
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
+mongoose.connect(configDB.url); // connect to database
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -57,38 +50,6 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// required for passport
-
-/*var sessionMiddleware = session({
-    secret: 'ilovescotchscotchyscotchscotch', // session secret
-    resave: true,
-    saveUninitialized: true
-})
-var http = require('http').createServer(app); 
-var io = require('socket.io')(http)
-//var io = require("socket.io")(app)
-    .use(function(socket, next){
-        // Wrap the express middleware
-        sessionMiddleware(socket.request, {}, next);
-    })
-    .on("connection", function(socket){
-        if (socket.request.session.passport){
-            var userId = socket.request.session.passport;
-        }
-        else {
-            var userId = null;
-        }
-        console.log("Your User ID is", userId);
-        socket.on('disconnect', function(){
-            console.log("User Disconnected", userId);
-        })
-        socket.on('close', function(){
-            console.log("User Close", userId);
-        })
-    });
-    
-
-app.use(sessionMiddleware)*/
 
 app.use(sessionMiddleware)
 app.use(passport.initialize());
